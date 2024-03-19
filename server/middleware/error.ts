@@ -8,11 +8,11 @@ export const ErrorMiddlware = (
   next: NextFunction
 ) => {
   err.statusCode = err.statusCode || 500;
-  err.message = err.message || "internal server error";
+  err.message = err.message || "Internal Server Error";
 
-  // wrong mongodb id eror
+  // wrong mongodb id error
   if (err.name === "CastError") {
-    const message = `Resource not found: invalid: ${req.path}`;
+    const message = `Resource not found: invalid ${req.path}`;
     err = new ErrorHandler(message, 400);
   }
 
@@ -34,7 +34,7 @@ export const ErrorMiddlware = (
     err = new ErrorHandler(message, 400);
   }
 
-  res.status(err.status).json({
+  res.status(err.statusCode).json({
     status: "false",
     message: err.message,
   });
