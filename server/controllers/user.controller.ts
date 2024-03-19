@@ -10,6 +10,7 @@ import ErrorHandler from "../utils/ErrorHandler";
 import { catchAsyncError } from "../middleware/catchAsyncErrors";
 import sendMail from "../utils/sendMail";
 import { sendToken } from "../utils/jwt";
+import { redis } from "../utils/radis";
 
 interface IRegistrationrBody {
   name: string;
@@ -163,6 +164,10 @@ export const logoutUser = catchAsyncError(
     try {
       res.cookie("access_token", "", { maxAge: 1 });
       res.cookie("refresh_token", "", { maxAge: 1 });
+      const userId = req.user?._id || "";
+
+      redis.del(userId);
+
       res
         .status(200)
         .json({ status: "success", message: "Logout successfully" });
