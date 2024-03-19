@@ -27,5 +27,11 @@
     "mongoose": "^8.2.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.2"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/nodemailer": "^6.4.14",
+    "ejs": "^3.1.9",
+    "nodemailer": "^6.9.12"
   }
 }
