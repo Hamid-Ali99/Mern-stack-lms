@@ -98,32 +98,42 @@ export const createActionToken = (user: any): IActivationToken => {
 };
 
 // activate a user
-// const activateUser = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
-//   try {
-//     const { activation_code, activation_token } = req.body as IActivationRequest;
 
-//     const newUser: { user: IUser; activationCode: string } = jwt.verify(
-//       activation_token,
-//       defaultVars.jwt.activation_secret as jwt.Secret
-//     ) as { user: IUser; activationCode: string };
+interface IActivationRequest {
+  activation_token: string;
+  activation_code: string;
+}
 
-//     if (newUser.activationCode !== activation_code) {
-//       return next(new ErrorHandler('Invalid activation code', httpStatus.BAD_REQUEST));
-//     }
+export const activateUser = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { activation_code, activation_token } =
+        req.body as IActivationRequest;
 
-//     const { name, email, password } = newUser.user;
-//     const existUser = await userModel.findOne({ email });
+      const newUser: { user: IUser; activationCode: string } = jwt.verify(
+        activation_token,
+        process.env.ACTIVATION_SECRET as string
+      ) as { user: IUser; activationCode: string };
 
-//     if (existUser) {
-//       return next(new ErrorHandler(' Email already exist', httpStatus.BAD_REQUEST));
-//     }
+      if (newUser.activationCode !== activation_code) {
+        return next(new ErrorHandler("Invalid activation code", 400));
+      }
 
-//     const user = await userModel.create({ email, password, name });
-//     res.status(200).json({ status: 'success', data: user });
-//   } catch (error) {
-//     return next(new ErrorHandler(error.message, httpStatus.BAD_REQUEST));
-//   }
-// });
+      const { name, email, password } = newUser.user;
+      const existUser = await userModel.findOne({ email });
+
+      if (existUser) {
+        return next(new ErrorHandler(" Email already exist", 400));
+      }
+
+      const user = await userModel.create({ name, email, password });
+
+      res.status(201).json({ status: "success" });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
 
 // const loginUser = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
 //   const { email, password } = req.body as ILoginRequest;
