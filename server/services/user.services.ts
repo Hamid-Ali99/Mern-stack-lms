@@ -1,13 +1,15 @@
 import { Response } from "express";
-import userModel from "../models/user.model";
-// import { ErrorHandler } from '../utils/errorHandler';
+import { redis } from "../utils/radis";
 
 // get user by Id
 export const getUserById = async (id: string, res: Response) => {
-  const user = await userModel.findById(id);
+  const userJson = await redis.get(id);
 
-  res.status(201).json({
-    status: "success",
-    user,
-  });
+  if (userJson) {
+    const user = JSON.parse(userJson);
+    res.status(201).json({
+      status: "success",
+      user,
+    });
+  }
 };
