@@ -17,9 +17,7 @@ export const CustomModal: FC<Props> = ({
   return (
     <Modal
       open={open}
-      onClose={() => {
-        setOpen(false);
-      }}
+      onClose={() => setOpen(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
