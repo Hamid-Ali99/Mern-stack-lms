@@ -18,7 +18,7 @@ const ProfilePage: React.FC<Props> = () => {
   return (
     <Protected>
       <Heading
-        title={`${user.name} profile`}
+        title={`${user.name} profile - Elearning`}
         description="LMS is a platform for students to learn and get help from teachers"
         keywords="Programming, Mern, Redux"
       />
