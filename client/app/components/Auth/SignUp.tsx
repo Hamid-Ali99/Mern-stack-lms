@@ -8,10 +8,10 @@ import {
   AiFillGithub,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 
 import { styles } from "../../../app/styles/style";
 import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
-import toast from "react-hot-toast";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -135,6 +135,7 @@ const SignUp: FC<Props> = ({ setRoute }) => {
             type="submit"
             value="Sign Up"
             className={`${styles.button} cursor-pointer`}
+            onChange={() => {}}
           />
           <br />
           <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
